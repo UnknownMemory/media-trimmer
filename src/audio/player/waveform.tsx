@@ -24,6 +24,10 @@ const render = async (canvas: HTMLCanvasElement, file: File) => {
   const audioBuffer = await audioContext.decodeAudioData(await file.arrayBuffer());
 
   const canvasCtx = canvas.getContext("2d");
+  if (!canvasCtx) {
+    return;
+  }
+
   canvasCtx.translate(0.5, 0.5);
   const WIDTH = canvas.width;
   const HEIGHT = canvas.height;

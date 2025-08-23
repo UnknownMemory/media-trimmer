@@ -1,33 +1,53 @@
 import { useEffect, useState } from "react";
-import { Input, ALL_FORMATS, BlobSource } from "mediabunny";
-
-import Waveform from "./waveform";
+import Slider from "@mui/material/Slider";
 import "./player.css";
 
-function Player({ file }: { file: File }) {
-  const [track, setTrack] = useState<File>();
-  useEffect(() => {
-    const input = new Input({
-      formats: ALL_FORMATS,
-      source: new BlobSource(file),
-    });
+import Waveform from "./waveform";
+import useAudioPlayer from "../../hooks/useAudioPlayer";
 
-    input.getPrimaryAudioTrack().then((track) => {
-      if (track) {
-        setTrack(file);
-      }
-    });
-  }, [file]);
+interface Props {
+  file: File;
+}
+
+function Player({ file }: Props) {
+  const [sliderValue, setSliderValue] = useState<number[]>([0, 100]);
+
+  const { loadFile, play, pause, trackDuration, loaded, isPlaying, playbackTimeAtStart } = useAudioPlayer();
+
+  const handleChange = (_: Event, newValue: number[]) => {
+    pause();
+    playbackTimeAtStart.current = newValue[0];
+    setSliderValue(newValue);
+    play();
+  };
+
+  const togglePlay = async () => {
+    if (!isPlaying) {
+      await play();
+    } else {
+      pause();
+    }
+  };
+
+  useEffect(() => {
+    loadFile(file);
+  }, [file, loadFile]);
 
   return (
     <>
       <div id="player">
-        {track && <Waveform file={track}></Waveform>}
-        {/* <div className="double-slider">
-          <input type="range" className="min" min="0" max="100" value="0" step="0" />
-          <input type="range" className="max" min="0" max="100" value="20" step="0" />
-        </div> */}
+        <Waveform file={file}></Waveform>
+        {loaded && (
+          <Slider
+            className="mt-slider"
+            max={trackDuration}
+            step={0.001}
+            value={sliderValue}
+            onChange={handleChange}
+            disableSwap></Slider>
+        )}
       </div>
+      {loaded && <button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</button>}
     </>
   );
 }
