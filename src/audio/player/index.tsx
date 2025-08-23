@@ -12,12 +12,14 @@ interface Props {
 function Player({ file }: Props) {
   const [sliderValue, setSliderValue] = useState<number[]>([0, 100]);
 
-  const { loadFile, play, pause, trackDuration, loaded, isPlaying, playbackTimeAtStart } = useAudioPlayer();
+  const { loadFile, play, pause, trackDuration, loaded, isPlaying, playbackTimeAtStart, setTrimDuration } =
+    useAudioPlayer();
 
   const handleChange = (_: Event, newValue: number[]) => {
     pause();
     playbackTimeAtStart.current = newValue[0];
     setSliderValue(newValue);
+    setTrimDuration(newValue);
     play();
   };
 

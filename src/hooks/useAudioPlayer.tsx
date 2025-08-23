@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from "react";
 const useAudioPlayer = () => {
   const [track, setTrack] = useState<InputAudioTrack>();
   const [trackDuration, setTrackDuration] = useState<number>(0);
+  const [trimDuration, setTrimDuration] = useState<number[]>([0, 0]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -33,8 +34,8 @@ const useAudioPlayer = () => {
       await audioContext.current.resume();
     }
 
-    if (getPlaybackTime() === trackDuration) {
-      playbackTimeAtStart.current = 0;
+    if (getPlaybackTime() >= trimDuration[1]) {
+      playbackTimeAtStart.current = trimDuration[0];
     }
 
     audioContextStartTime.current = audioContext.current.currentTime;
@@ -73,6 +74,7 @@ const useAudioPlayer = () => {
     // timestamp. The result is a continuous, uninterrupted audio signal.
 
     for await (const { buffer, timestamp } of audioBufferIterator.current!) {
+      const bufferEnd = timestamp + buffer.duration;
       const node = audioContext.current!.createBufferSource();
       node.buffer = buffer;
       node.connect(gainNode.current!);
@@ -92,6 +94,13 @@ const useAudioPlayer = () => {
       node.onended = () => {
         queuedAudioNodes.current.delete(node);
       };
+
+      if (bufferEnd >= trimDuration[1]) {
+        if (isPlayingRef.current) {
+          playbackTimeAtStart.current = trimDuration[1];
+          pause();
+        }
+      }
 
       if (timestamp - getPlaybackTime() >= 1) {
         await new Promise<void>((resolve) => {
@@ -123,6 +132,7 @@ const useAudioPlayer = () => {
 
       setTrack(audioTrack);
       setTrackDuration(duration);
+      setTrimDuration([0, duration]);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const Ctx: typeof window.AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -139,7 +149,7 @@ const useAudioPlayer = () => {
     }
   }, []);
 
-  return { loadFile, play, pause, track, trackDuration, isPlaying, loaded, playbackTimeAtStart };
+  return { loadFile, play, pause, setTrimDuration, track, trackDuration, isPlaying, loaded, playbackTimeAtStart };
 };
 
 export default useAudioPlayer;
