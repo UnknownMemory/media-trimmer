@@ -28,7 +28,6 @@ import {
   WavOutputFormat,
 } from "mediabunny";
 import { useState, type ChangeEvent, type Dispatch, type SetStateAction } from "react";
-import "./dialog.css";
 
 interface Props {
   open: boolean;

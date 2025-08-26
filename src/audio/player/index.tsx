@@ -35,6 +35,7 @@ function Player({ file }: Props) {
 
   const openDialog = () => {
     if (!open) {
+      if (isPlaying) pause();
       setOpen(true);
     }
   };
