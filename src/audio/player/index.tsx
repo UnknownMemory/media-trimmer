@@ -4,6 +4,7 @@ import "./player.css";
 
 import Waveform from "./waveform";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
+import ExportDialog from "../export/dialog";
 
 interface Props {
   file: File;
@@ -11,6 +12,7 @@ interface Props {
 
 function Player({ file }: Props) {
   const [sliderValue, setSliderValue] = useState<number[]>([0, 100]);
+  const [open, setOpen] = useState<boolean>(false);
 
   const { loadFile, play, pause, trackDuration, loaded, isPlaying, playbackTimeAtStart, setTrimDuration } =
     useAudioPlayer();
@@ -31,6 +33,12 @@ function Player({ file }: Props) {
     }
   };
 
+  const openDialog = () => {
+    if (!open) {
+      setOpen(true);
+    }
+  };
+
   useEffect(() => {
     loadFile(file);
   }, [file, loadFile]);
@@ -43,13 +51,17 @@ function Player({ file }: Props) {
           <Slider
             className="mt-slider"
             max={trackDuration}
-            step={0.001}
+            step={0.0000000000001}
             value={sliderValue}
             onChange={handleChange}
             disableSwap></Slider>
         )}
       </div>
-      {loaded && <button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</button>}
+      <div>
+        <button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</button>
+        <button onClick={openDialog}>Export</button>
+        <ExportDialog open={open} setOpen={setOpen} file={file} duration={sliderValue}></ExportDialog>
+      </div>
     </>
   );
 }

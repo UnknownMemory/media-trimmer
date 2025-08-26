@@ -1,4 +1,15 @@
-import { ALL_FORMATS, AudioBufferSink, BlobSource, Input, InputAudioTrack, type WrappedAudioBuffer } from "mediabunny";
+import {
+  ALL_FORMATS,
+  AudioBufferSink,
+  BlobSource,
+  BufferTarget,
+  Conversion,
+  Input,
+  InputAudioTrack,
+  MP3,
+  Output,
+  type WrappedAudioBuffer,
+} from "mediabunny";
 import { useCallback, useRef, useState } from "react";
 
 const useAudioPlayer = () => {
@@ -7,6 +18,7 @@ const useAudioPlayer = () => {
   const [trimDuration, setTrimDuration] = useState<number[]>([0, 0]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [loaded, setLoaded] = useState<boolean>(false);
+  const audioInput = useRef<BlobSource | null>(null);
 
   const audioContext = useRef<AudioContext | null>(null);
   const gainNode = useRef<GainNode | null>(null);
@@ -124,6 +136,7 @@ const useAudioPlayer = () => {
         formats: ALL_FORMATS,
         source: new BlobSource(file),
       });
+      audioInput.current = new BlobSource(file);
 
       const audioTrack = await input.getPrimaryAudioTrack();
       if (!audioTrack) return;
@@ -149,7 +162,17 @@ const useAudioPlayer = () => {
     }
   }, []);
 
-  return { loadFile, play, pause, setTrimDuration, track, trackDuration, isPlaying, loaded, playbackTimeAtStart };
+  return {
+    loadFile,
+    play,
+    pause,
+    setTrimDuration,
+    track,
+    trackDuration,
+    isPlaying,
+    loaded,
+    playbackTimeAtStart,
+  };
 };
 
 export default useAudioPlayer;
