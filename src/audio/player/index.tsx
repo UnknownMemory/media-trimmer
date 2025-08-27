@@ -5,6 +5,8 @@ import "./player.css";
 import Waveform from "./waveform";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 import ExportDialog from "../export/dialog";
+import { Box, Button, Stack } from "@mui/material";
+import { VolumeDown, VolumeUp } from "@mui/icons-material";
 
 interface Props {
   file: File;
@@ -12,10 +14,20 @@ interface Props {
 
 function Player({ file }: Props) {
   const [sliderValue, setSliderValue] = useState<number[]>([0, 100]);
+  const [volume, setVolume] = useState<number>(50);
   const [open, setOpen] = useState<boolean>(false);
 
-  const { loadFile, play, pause, trackDuration, loaded, isPlaying, playbackTimeAtStart, setTrimDuration } =
-    useAudioPlayer();
+  const {
+    loadFile,
+    play,
+    pause,
+    updateVolume,
+    trackDuration,
+    loaded,
+    isPlaying,
+    playbackTimeAtStart,
+    setTrimDuration,
+  } = useAudioPlayer();
 
   const handleChange = (_: Event, newValue: number[]) => {
     pause();
@@ -40,12 +52,20 @@ function Player({ file }: Props) {
     }
   };
 
+  const handleVolume = (_: Event, value: number) => {
+    setVolume(value);
+    updateVolume(value);
+  };
+
   useEffect(() => {
     loadFile(file);
   }, [file, loadFile]);
 
   return (
-    <>
+    <Box
+      sx={{
+        height: "100vh",
+      }}>
       <div id="player">
         <Waveform file={file}></Waveform>
         {loaded && (
@@ -58,12 +78,23 @@ function Player({ file }: Props) {
             disableSwap></Slider>
         )}
       </div>
-      <div>
-        <button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</button>
-        <button onClick={openDialog}>Export</button>
-        <ExportDialog open={open} setOpen={setOpen} file={file} duration={sliderValue}></ExportDialog>
-      </div>
-    </>
+
+      <Stack direction="row" sx={{ marginTop: "1rem" }}>
+        <Button type="button" onClick={togglePlay}>
+          {isPlaying ? "Pause" : "Play"}
+        </Button>
+        <Stack spacing={1} direction="row" sx={{ alignItems: "center", width: "12rem" }}>
+          <VolumeDown />
+          <Slider aria-label="Volume" valueLabelDisplay="on" min={0} max={100} value={volume} onChange={handleVolume} />
+          <VolumeUp />
+        </Stack>
+
+        <Button type="button" onClick={openDialog} sx={{ flexBasis: "1" }}>
+          Export
+        </Button>
+      </Stack>
+      <ExportDialog open={open} setOpen={setOpen} file={file} duration={sliderValue}></ExportDialog>
+    </Box>
   );
 }
 

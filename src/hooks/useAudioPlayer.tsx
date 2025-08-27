@@ -151,11 +151,19 @@ const useAudioPlayer = () => {
     }
   }, []);
 
+  const updateVolume = (volume: number) => {
+    if (gainNode.current) {
+      const vol = volume / 100;
+      gainNode.current.gain.value = vol ** 2;
+    }
+  };
+
   return {
     loadFile,
     play,
     pause,
     setTrimDuration,
+    updateVolume,
     track,
     trackDuration,
     isPlaying,
