@@ -45,18 +45,20 @@ function ExportDialog({ open, setOpen, file, duration }: Props) {
   const [progress, setProgress] = useState<number>(0);
   const [cancelExport, setCancelExport] = useState<Conversion | null>(null);
 
-  const initMP3 = () => {
-    if (!canEncodeAudio("mp3")) {
+  const initMP3 = async () => {
+    if (!(await canEncodeAudio("mp3"))) {
       registerMp3Encoder();
     }
 
     return new Mp3OutputFormat();
   };
-  const outputFormats = {
-    mp3: initMP3(),
-    ogg: new OggOutputFormat(),
-    wav: new WavOutputFormat(),
-    adts: new AdtsOutputFormat(),
+  const outputFormats = async () => {
+    return {
+      mp3: await initMP3(),
+      ogg: new OggOutputFormat(),
+      wav: new WavOutputFormat(),
+      adts: new AdtsOutputFormat(),
+    };
   };
 
   const onClose = () => {
@@ -86,9 +88,9 @@ function ExportDialog({ open, setOpen, file, duration }: Props) {
       formats: ALL_FORMATS,
       source: new BlobSource(source),
     });
-
+    const outputs = await outputFormats();
     const output = new Output({
-      format: outputFormats[format],
+      format: outputs[format],
       target: new BufferTarget(),
     });
 
