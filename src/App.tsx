@@ -51,7 +51,7 @@ function App() {
 
   return (
     <>
-      <Container maxWidth={false} fixed>
+      <Container maxWidth={false} fixed disableGutters>
         {!file && uploadBtn()}
         {file && <Player file={file} />}
       </Container>
