@@ -3,6 +3,16 @@
   --range-thumb-width: 1.2rem;
 }
 
+.trimmer {
+  display: grid;
+  grid-template-areas:
+    "Header"
+    "Audio"
+    "Controls";
+  grid-template-rows: 5rem 1fr 6rem;
+  height: 100dvh;
+}
+
 #player {
   width: 100%;
   position: relative;
@@ -27,4 +37,8 @@
 
 .mt-slider .MuiSlider-track {
   background-color: rgb(255 255 255 / 10%);
+}
+
+.play-pause-btn svg {
+  font-size: 3rem;
 }

@@ -6,7 +6,7 @@ function Waveform({ file }: { file: File }) {
   useEffect(() => {
     if (!canvasref.current || !file) return;
 
-    canvasref.current.width = canvasref.current.offsetWidth;
+    canvasref.current.width = canvasref.current.offsetWidth - 20;
     canvasref.current.height = canvasref.current.offsetHeight;
 
     render(canvasref.current, file);

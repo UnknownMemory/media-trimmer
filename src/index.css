@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #010409;
+  --bg-color: #1f1f1f;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -39,7 +39,7 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 1.5rem;
   line-height: 1.1;
 }
 

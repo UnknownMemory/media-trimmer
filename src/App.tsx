@@ -17,11 +17,13 @@ const VisuallyHiddenInput = styled("input")({
 
 function App() {
   const [file, setFile] = useState<File>();
+  const [title, setTitle] = useState<string>();
 
   const onUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
     if (uploadedFile) {
       setFile(uploadedFile);
+      setTitle(uploadedFile.name.substring(0, uploadedFile.name.lastIndexOf(".")));
     }
   };
 
@@ -29,20 +31,19 @@ function App() {
     return (
       <Box
         sx={{
-          height: "100vh",
           display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          gridArea: "Audio",
+          flexDirection: "column",
         }}>
-        <h1>Audio Trimmer</h1>
         <Button
           component="label"
           role={undefined}
           variant="contained"
           tabIndex={-1}
           sx={{ marginTop: "2rem", textTransform: "none" }}>
-          Load audio file
+          Load file
           <VisuallyHiddenInput type="file" accept="audio/*" onChange={(event) => onUpload(event)} multiple />
         </Button>
       </Box>
@@ -51,9 +52,23 @@ function App() {
 
   return (
     <>
-      <Container maxWidth={false} fixed disableGutters>
-        {!file && uploadBtn()}
-        {file && <Player file={file} />}
+      <Container maxWidth={false} fixed>
+        <div className="trimmer">
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gridArea: "Header" }}>
+            <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
+              <h1>Audio Trimmer</h1>
+            </Box>
+            <div>{title != "" && title}</div>
+            <Box sx={{ flexGrow: 1, flexBasis: 0, display: "flex", justifyContent: "flex-end" }}>
+              <Button component="label" role={undefined} variant="text" tabIndex={-1} sx={{ textTransform: "none" }}>
+                Load file
+                <VisuallyHiddenInput type="file" accept="audio/*" onChange={(event) => onUpload(event)} multiple />
+              </Button>
+            </Box>
+          </Box>
+          {!file && uploadBtn()}
+          {file && <Player file={file} />}
+        </div>
       </Container>
     </>
   );

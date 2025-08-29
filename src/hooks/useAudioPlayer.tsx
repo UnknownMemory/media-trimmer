@@ -142,6 +142,7 @@ const useAudioPlayer = () => {
 
       gainNode.current = audioContext.current.createGain();
       gainNode.current.connect(audioContext.current.destination);
+      updateVolume(50);
 
       audioSink.current = audioTrack && new AudioBufferSink(audioTrack);
 
