@@ -5,25 +5,17 @@ import "./player.css";
 import Waveform from "./waveform";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 import ExportDialog from "../export/dialog";
-import { Box, Button, IconButton, Stack } from "@mui/material";
-import {
-  Pause,
-  PauseCircleFilled,
-  PlayArrow,
-  PlayArrowRounded,
-  PlayCircleFilled,
-  VolumeDown,
-  VolumeUp,
-} from "@mui/icons-material";
+import { Box, Button, CircularProgress, IconButton, Stack } from "@mui/material";
+import { PauseCircleFilled, PlayCircleFilled, VolumeDown, VolumeUp } from "@mui/icons-material";
 
 interface Props {
   file: File;
 }
 
 function Player({ file }: Props) {
-  const [sliderValue, setSliderValue] = useState<number[]>([0, 100]);
   const [volume, setVolume] = useState<number>(50);
   const [open, setOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const {
     loadFile,
@@ -31,7 +23,8 @@ function Player({ file }: Props) {
     pause,
     updateVolume,
     trackDuration,
-    loaded,
+    trackLoaded,
+    trimDuration,
     isPlaying,
     playbackTimeAtStart,
     setTrimDuration,
@@ -40,7 +33,6 @@ function Player({ file }: Props) {
   const handleChange = (_: Event, newValue: number[]) => {
     pause();
     playbackTimeAtStart.current = newValue[0];
-    setSliderValue(newValue);
     setTrimDuration(newValue);
     play();
   };
@@ -66,6 +58,7 @@ function Player({ file }: Props) {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     loadFile(file);
   }, [file, loadFile]);
 
@@ -79,16 +72,34 @@ function Player({ file }: Props) {
           alignItems: "center",
           justifyContent: "center",
           gridArea: "Audio",
+          padding: "0 1rem",
+          position: "relative",
         }}>
+        {isLoading && (
+          <Box
+            width={"100%"}
+            height={"100%"}
+            sx={{
+              position: "absolute",
+              borderRadius: "1.5rem",
+              zIndex: "5",
+              backgroundColor: "#32363c",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+            <CircularProgress />
+          </Box>
+        )}
         <Box id="player">
-          <Waveform file={file}></Waveform>
-          {loaded && (
+          <Waveform file={file} setIsLoading={setIsLoading}></Waveform>
+          {trackLoaded && (
             <Slider
               className="mt-slider"
               min={0}
               max={trackDuration}
               step={0.0000000000001}
-              value={sliderValue}
+              value={trimDuration}
               onChange={handleChange}
               disableSwap></Slider>
           )}
@@ -126,7 +137,7 @@ function Player({ file }: Props) {
             Export
           </Button>
         </Stack>
-        <ExportDialog open={open} setOpen={setOpen} file={file} duration={sliderValue}></ExportDialog>
+        {open && <ExportDialog open={open} setOpen={setOpen} file={file} duration={trimDuration}></ExportDialog>}
       </Box>
     </>
   );

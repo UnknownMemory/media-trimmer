@@ -6,7 +6,7 @@ const useAudioPlayer = () => {
   const [trackDuration, setTrackDuration] = useState<number>(0);
   const [trimDuration, setTrimDuration] = useState<number[]>([0, 0]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [trackLoaded, setTrackLoaded] = useState<boolean>(false);
   const audioInput = useRef<BlobSource | null>(null);
 
   const audioContext = useRef<AudioContext | null>(null);
@@ -119,7 +119,7 @@ const useAudioPlayer = () => {
   const loadFile = useCallback(async (file: File) => {
     try {
       audioBufferIterator.current?.return();
-      setLoaded(false);
+      setTrackLoaded(false);
 
       const input = new Input({
         formats: ALL_FORMATS,
@@ -146,7 +146,7 @@ const useAudioPlayer = () => {
 
       audioSink.current = audioTrack && new AudioBufferSink(audioTrack);
 
-      return setLoaded(true);
+      return setTrackLoaded(true);
     } catch (error) {
       console.error("Failed to initialize audio player:", error);
     }
@@ -167,8 +167,9 @@ const useAudioPlayer = () => {
     updateVolume,
     track,
     trackDuration,
+    trimDuration,
     isPlaying,
-    loaded,
+    trackLoaded,
     playbackTimeAtStart,
   };
 };

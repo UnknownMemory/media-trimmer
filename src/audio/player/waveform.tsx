@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
 
-function Waveform({ file }: { file: File }) {
+function Waveform({ file, setIsLoading }: { file: File; setIsLoading: Dispatch<SetStateAction<boolean>> }) {
   const canvasref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -9,8 +9,10 @@ function Waveform({ file }: { file: File }) {
     canvasref.current.width = canvasref.current.offsetWidth - 20;
     canvasref.current.height = canvasref.current.offsetHeight;
 
-    render(canvasref.current, file);
-  }, [file]);
+    render(canvasref.current, file).then(() => {
+      setIsLoading(false);
+    });
+  }, [file, setIsLoading]);
 
   return (
     <>

@@ -1,8 +1,3 @@
-:root {
-  --range-radius: 20px;
-  --range-thumb-width: 1.2rem;
-}
-
 .trimmer {
   display: grid;
   grid-template-areas:
@@ -28,7 +23,7 @@
   top: 0;
   padding: 0 !important;
   height: 100% !important;
-  color: #fff !important;
+  color: #fd8529 !important;
 }
 
 .mt-slider .MuiSlider-rail {
@@ -36,7 +31,14 @@
 }
 
 .mt-slider .MuiSlider-track {
-  background-color: rgb(255 255 255 / 10%);
+  background-color: #fd85291d;
+  border: 2.5px solid #fd8529;
+}
+
+.mt-slider .MuiSlider-thumb {
+  background-color: #fd8529;
+  width: 18px;
+  height: 18px;
 }
 
 .play-pause-btn svg {
