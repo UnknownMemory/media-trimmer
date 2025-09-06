@@ -6,10 +6,10 @@
       "dependencies": {
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.1",
-        "@mediabunny/mp3-encoder": "^1.13.0",
+        "@mediabunny/mp3-encoder": "^1.13.2",
         "@mui/icons-material": "^7.3.1",
         "@mui/material": "^7.3.1",
-        "mediabunny": "^1.13.0",
+        "mediabunny": "^1.13.2",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -183,7 +183,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.29", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ=="],
 
-    "@mediabunny/mp3-encoder": ["@mediabunny/mp3-encoder@1.13.0", "", { "peerDependencies": { "mediabunny": "^1.0.0" } }, "sha512-/YfGkP3lQR6yqbyfP4k2GGMtzU8VCuLy25XIecH/54W1gSwgjgmTvtsHiNaqMJXtgrWmE0PPfn8IKPlskRka5A=="],
+    "@mediabunny/mp3-encoder": ["@mediabunny/mp3-encoder@1.13.2", "", { "peerDependencies": { "mediabunny": "^1.0.0" } }, "sha512-dP6zNE9f+K4e0qQ56LYWxrRz9NuWuTTVoyRRpPOiGoYsvZBFhd4j1Ci3tnNFsCwx1/KqDaAPnJmqw9D1LUZrQA=="],
 
     "@mui/core-downloads-tracker": ["@mui/core-downloads-tracker@7.3.1", "", {}, "sha512-+mIK1Z0BhOaQ0vCgOkT1mSrIpEHLo338h4/duuL4TBLXPvUMit732mnwJY3W40Avy30HdeSfwUAAGRkKmwRaEQ=="],
 
@@ -467,7 +467,7 @@
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
 
-    "mediabunny": ["mediabunny@1.13.0", "", { "dependencies": { "@types/dom-mediacapture-transform": "^0.1.11", "@types/dom-webcodecs": "0.1.13" } }, "sha512-eAtCVOzceN3VkExQmYrDB+3bM6d98PfB6AhgueojYG6T5SNzc4cRR2gWm0oZ1HjhNN0J4hjtvtEpJ+AAMXF/dQ=="],
+    "mediabunny": ["mediabunny@1.13.2", "", { "dependencies": { "@types/dom-mediacapture-transform": "^0.1.11", "@types/dom-webcodecs": "0.1.13" } }, "sha512-quUwxiyA76+iAh2REQAFifHNthgVqzET37ys6v+GC8ljJpOXuP/g/XNsITc+/6r18gGuYQyF/9C4T/CeiTf7gA=="],
 
     "merge2": ["merge2@1.4.1", "", {}, "sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg=="],
 

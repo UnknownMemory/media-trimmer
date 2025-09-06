@@ -6,6 +6,7 @@ const useAudioPlayer = () => {
   const [trackDuration, setTrackDuration] = useState<number>(0);
   const [trimDuration, setTrimDuration] = useState<number[]>([0, 0]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [playbackTime, setPlaybackTime] = useState<number>(0);
   const [trackLoaded, setTrackLoaded] = useState<boolean>(false);
   const audioInput = useRef<BlobSource | null>(null);
 
@@ -79,7 +80,8 @@ const useAudioPlayer = () => {
       const node = audioContext.current!.createBufferSource();
       node.buffer = buffer;
       node.connect(gainNode.current!);
-
+      console.log(timestamp);
+      setPlaybackTime(timestamp);
       const startTimestamp = audioContextStartTime.current! + timestamp - playbackTimeAtStart.current;
 
       // Two cases: Either, the audio starts in the future or in the past
@@ -168,6 +170,7 @@ const useAudioPlayer = () => {
     track,
     trackDuration,
     trimDuration,
+    playbackTime,
     isPlaying,
     trackLoaded,
     playbackTimeAtStart,

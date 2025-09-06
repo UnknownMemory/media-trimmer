@@ -44,3 +44,10 @@
 .play-pause-btn svg {
   font-size: 3rem;
 }
+
+.timebar {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: #646cff;
+}

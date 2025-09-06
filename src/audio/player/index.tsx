@@ -26,6 +26,7 @@ function Player({ file }: Props) {
     trackLoaded,
     trimDuration,
     isPlaying,
+    playbackTime,
     playbackTimeAtStart,
     setTrimDuration,
   } = useAudioPlayer();
@@ -62,6 +63,9 @@ function Player({ file }: Props) {
     loadFile(file);
   }, [file, loadFile]);
 
+  const scaling = 100 / trackDuration;
+  const barPosition = playbackTime * scaling;
+
   return (
     <>
       <Box
@@ -92,6 +96,7 @@ function Player({ file }: Props) {
           </Box>
         )}
         <Box id="player">
+          <div className="timebar" style={{ left: barPosition + "%" }}></div>
           <Waveform file={file} setIsLoading={setIsLoading}></Waveform>
           {trackLoaded && (
             <Slider
