@@ -80,7 +80,7 @@ const useAudioPlayer = () => {
       const node = audioContext.current!.createBufferSource();
       node.buffer = buffer;
       node.connect(gainNode.current!);
-      console.log(timestamp);
+
       setPlaybackTime(timestamp);
       const startTimestamp = audioContextStartTime.current! + timestamp - playbackTimeAtStart.current;
 

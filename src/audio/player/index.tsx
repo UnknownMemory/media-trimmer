@@ -60,8 +60,14 @@ function Player({ file }: Props) {
 
   useEffect(() => {
     setIsLoading(true);
+    setVolume(50);
+    updateVolume(50);
     loadFile(file);
-  }, [file, loadFile]);
+
+    return () => {
+      pause();
+    };
+  }, [file, loadFile, pause, updateVolume]);
 
   const scaling = 100 / trackDuration;
   const barPosition = playbackTime * scaling;

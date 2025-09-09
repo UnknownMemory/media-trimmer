@@ -31,12 +31,12 @@
 }
 
 .mt-slider .MuiSlider-track {
-  background-color: #fd85291d;
-  border: 2.5px solid #fd8529;
+  background-color: #fcca341e;
+  border: 2.5px solid #fcc934;
 }
 
 .mt-slider .MuiSlider-thumb {
-  background-color: #fd8529;
+  background-color: #fcc934;
   width: 18px;
   height: 18px;
 }
@@ -47,7 +47,7 @@
 
 .timebar {
   position: absolute;
-  width: 2px;
+  width: 3px;
   height: 100%;
-  background-color: #646cff;
+  background-color: #90caf9;
 }
