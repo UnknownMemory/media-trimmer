@@ -33,9 +33,9 @@ function App() {
         const file = new File([blob], "DJ YARI - EVERYTHING IS BUSINES PT.2.m4a", { type: "audio/m4a" });
         setFile(file);
         setTitle(file.name.substring(0, file.name.lastIndexOf(".")));
-      })
-    })
-  }
+      });
+    });
+  };
 
   const uploadBtn = () => {
     return (
@@ -55,14 +55,9 @@ function App() {
           Load file
           <VisuallyHiddenInput type="file" accept="audio/*" onChange={(event) => onUpload(event)} multiple />
         </Button>
-        <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            sx={{ textTransform: "none" }}>
+        <Button component="label" role={undefined} variant="contained" tabIndex={-1} sx={{ textTransform: "none" }}>
           Load example file
-          <VisuallyHiddenInput type="button" onClick={  loadExample} multiple />
+          <VisuallyHiddenInput type="button" onClick={loadExample} multiple />
         </Button>
       </Box>
     );

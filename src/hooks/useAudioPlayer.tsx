@@ -52,12 +52,12 @@ const useAudioPlayer = () => {
     }
   };
 
-  const interrupt = (event: "pause"|"stop") => {
-    if(event == "stop"){
-        playbackTimeAtStart.current = trimDuration[0];
-        setPlaybackTime(trimDuration[0])
-    } else if(event == "pause"){
-        playbackTimeAtStart.current = getPlaybackTime();
+  const interrupt = (event: "pause" | "stop") => {
+    if (event == "stop") {
+      playbackTimeAtStart.current = trimDuration[0];
+      setPlaybackTime(trimDuration[0]);
+    } else if (event == "pause") {
+      playbackTimeAtStart.current = getPlaybackTime();
     }
     isPlayingRef.current = false;
     setIsPlaying(false);

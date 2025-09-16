@@ -6,7 +6,7 @@ import Waveform from "./waveform";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 import ExportDialog from "../export/dialog";
 import { Box, Button, CircularProgress, IconButton, Stack } from "@mui/material";
-import {PauseCircleFilled, PlayCircleFilled, StopCircle, VolumeDown, VolumeUp} from "@mui/icons-material";
+import { PauseCircleFilled, PlayCircleFilled, StopCircle, VolumeDown, VolumeUp } from "@mui/icons-material";
 
 interface Props {
   file: File;
@@ -63,7 +63,7 @@ function Player({ file }: Props) {
 
     loadFile(file);
     return () => {
-        interrupt("stop");
+      interrupt("stop");
     };
   }, [file, loadFile]);
 
@@ -154,11 +154,11 @@ function Player({ file }: Props) {
               )}
             </IconButton>
             <IconButton
-                className="play-pause-btn"
-                type="button"
-                onClick={() => interrupt("stop")}
-                size="large"
-                aria-label="play/pause">
+              className="play-pause-btn"
+              type="button"
+              onClick={() => interrupt("stop")}
+              size="large"
+              aria-label="play/pause">
               <StopCircle fontSize="large"></StopCircle>
             </IconButton>
             <Stack spacing={1} direction="row" sx={{ alignItems: "center", width: "10rem" }}>

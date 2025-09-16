@@ -1,0 +1,8 @@
+{
+    "semi": true,
+    "bracketSpacing": true,
+    "printWidth": 120,
+    "endOfLine": "auto",
+    "htmlWhitespaceSensitivity": "ignore",
+    "jsxBracketSameLine": true
+}
