@@ -6,7 +6,7 @@ import Waveform from "./waveform";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 import ExportDialog from "../export/dialog";
 import { Box, Button, CircularProgress, IconButton, Stack } from "@mui/material";
-import { PauseCircleFilled, PlayCircleFilled, VolumeDown, VolumeUp } from "@mui/icons-material";
+import {PauseCircleFilled, PlayCircleFilled, StopCircle, VolumeDown, VolumeUp} from "@mui/icons-material";
 
 interface Props {
   file: File;
@@ -20,7 +20,7 @@ function Player({ file }: Props) {
   const {
     loadFile,
     play,
-    pause,
+    interrupt,
     updateVolume,
     trackDuration,
     trackLoaded,
@@ -31,24 +31,24 @@ function Player({ file }: Props) {
     setTrimDuration,
   } = useAudioPlayer();
 
-  const handleChange = (_: Event, newValue: number[]) => {
-    pause();
+  const handleChange = async (_: Event, newValue: number[]) => {
+    interrupt("pause");
     playbackTimeAtStart.current = newValue[0];
     setTrimDuration(newValue);
-    play();
+    await play();
   };
 
   const togglePlay = async () => {
     if (!isPlaying) {
       await play();
     } else {
-      pause();
+      interrupt("pause");
     }
   };
 
   const openDialog = () => {
     if (!open) {
-      if (isPlaying) pause();
+      if (isPlaying) interrupt("pause");
       setOpen(true);
     }
   };
@@ -60,14 +60,34 @@ function Player({ file }: Props) {
 
   useEffect(() => {
     setIsLoading(true);
-    setVolume(50);
-    updateVolume(50);
-    loadFile(file);
 
+    loadFile(file);
     return () => {
-      pause();
+        interrupt("stop");
     };
-  }, [file, loadFile, pause, updateVolume]);
+  }, [file, loadFile]);
+
+  const formatTime = (seconds: number) => {
+    seconds = Math.round(seconds * 1000) / 1000;
+
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const millisecs = Math.floor((1000 * seconds) % 1000)
+      .toString()
+      .padStart(3, "0");
+
+    let result: string;
+    if (hours > 0) {
+      result =
+        `${hours}:${minutes.toString().padStart(2, "0")}` +
+        `:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
+    } else {
+      result = `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
+    }
+
+    return result;
+  };
 
   const scaling = 100 / trackDuration;
   const barPosition = playbackTime * scaling;
@@ -112,6 +132,8 @@ function Player({ file }: Props) {
               step={0.0000000000001}
               value={trimDuration}
               onChange={handleChange}
+              valueLabelDisplay="auto"
+              valueLabelFormat={formatTime}
               disableSwap></Slider>
           )}
         </Box>
@@ -130,6 +152,14 @@ function Player({ file }: Props) {
               ) : (
                 <PlayCircleFilled fontSize="large"></PlayCircleFilled>
               )}
+            </IconButton>
+            <IconButton
+                className="play-pause-btn"
+                type="button"
+                onClick={() => interrupt("stop")}
+                size="large"
+                aria-label="play/pause">
+              <StopCircle fontSize="large"></StopCircle>
             </IconButton>
             <Stack spacing={1} direction="row" sx={{ alignItems: "center", width: "10rem" }}>
               <VolumeDown />

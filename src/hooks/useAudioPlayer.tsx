@@ -48,12 +48,17 @@ const useAudioPlayer = () => {
       audioBufferIterator.current?.return();
       audioBufferIterator.current = audioSink.current?.buffers(getPlaybackTime());
 
-      runAudioIterator();
+      await runAudioIterator();
     }
   };
 
-  const pause = () => {
-    playbackTimeAtStart.current = getPlaybackTime();
+  const interrupt = (event: "pause"|"stop") => {
+    if(event == "stop"){
+        playbackTimeAtStart.current = trimDuration[0];
+        setPlaybackTime(trimDuration[0])
+    } else if(event == "pause"){
+        playbackTimeAtStart.current = getPlaybackTime();
+    }
     isPlayingRef.current = false;
     setIsPlaying(false);
 
@@ -101,7 +106,7 @@ const useAudioPlayer = () => {
       if (bufferEnd >= trimDuration[1]) {
         if (isPlayingRef.current) {
           playbackTimeAtStart.current = trimDuration[1];
-          pause();
+          interrupt("pause");
         }
       }
 
@@ -164,7 +169,7 @@ const useAudioPlayer = () => {
   return {
     loadFile,
     play,
-    pause,
+    interrupt,
     setTrimDuration,
     updateVolume,
     track,
