@@ -53,7 +53,7 @@ function App() {
           tabIndex={-1}
           sx={{ marginRight: "1rem", textTransform: "none" }}>
           Load file
-          <VisuallyHiddenInput type="file" accept="audio/*" onChange={(event) => onUpload(event)} multiple />
+          <VisuallyHiddenInput type="file" accept="audio/*, audio/aac" onChange={(event) => onUpload(event)} multiple />
         </Button>
         <Button component="label" role={undefined} variant="contained" tabIndex={-1} sx={{ textTransform: "none" }}>
           Load example file

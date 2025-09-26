@@ -8,7 +8,6 @@ const useAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [playbackTime, setPlaybackTime] = useState<number>(0);
   const [trackLoaded, setTrackLoaded] = useState<boolean>(false);
-  const audioInput = useRef<BlobSource | null>(null);
 
   const audioContext = useRef<AudioContext | null>(null);
   const gainNode = useRef<GainNode | null>(null);
@@ -132,12 +131,16 @@ const useAudioPlayer = () => {
         formats: ALL_FORMATS,
         source: new BlobSource(file),
       });
-      audioInput.current = new BlobSource(file);
 
       const audioTrack = await input.getPrimaryAudioTrack();
+      const duration = await input.computeDuration();
       if (!audioTrack) return;
 
-      const duration = await audioTrack.computeDuration();
+      if (audioTrack.codec === null) {
+        throw new Error("Unsupported audio codec.");
+      } else if (!(await audioTrack.canDecode())) {
+        throw new Error("Unable to decode the audio track.");
+      }
 
       setTrack(audioTrack);
       setTrackDuration(duration);
@@ -176,6 +179,7 @@ const useAudioPlayer = () => {
     trackDuration,
     trimDuration,
     playbackTime,
+    setPlaybackTime,
     isPlaying,
     trackLoaded,
     playbackTimeAtStart,

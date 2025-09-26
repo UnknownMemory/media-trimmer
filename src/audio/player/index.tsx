@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import Slider from "@mui/material/Slider";
-import "./player.css";
-
-import Waveform from "./waveform";
-import useAudioPlayer from "../../hooks/useAudioPlayer";
-import ExportDialog from "../export/dialog";
 import { Box, Button, CircularProgress, IconButton, Stack } from "@mui/material";
 import { PauseCircleFilled, PlayCircleFilled, StopCircle, VolumeDown, VolumeUp } from "@mui/icons-material";
+import Slider from "@mui/material/Slider";
+
+import useAudioPlayer from "../../hooks/useAudioPlayer";
+
+import Waveform from "./waveform";
+import ExportDialog from "../export/dialog";
+import { Timebar } from "./timebar.tsx";
+import "./player.css";
 
 interface Props {
   file: File;
@@ -27,6 +29,7 @@ function Player({ file }: Props) {
     trimDuration,
     isPlaying,
     playbackTime,
+    setPlaybackTime,
     playbackTimeAtStart,
     setTrimDuration,
   } = useAudioPlayer();
@@ -34,8 +37,8 @@ function Player({ file }: Props) {
   const handleChange = async (_: Event, newValue: number[]) => {
     interrupt("pause");
     playbackTimeAtStart.current = newValue[0];
+    setPlaybackTime(newValue[0]);
     setTrimDuration(newValue);
-    await play();
   };
 
   const togglePlay = async () => {
@@ -89,9 +92,6 @@ function Player({ file }: Props) {
     return result;
   };
 
-  const scaling = 100 / trackDuration;
-  const barPosition = playbackTime * scaling;
-
   return (
     <>
       <Box
@@ -122,7 +122,7 @@ function Player({ file }: Props) {
           </Box>
         )}
         <Box id="player">
-          <div className="timebar" style={{ left: barPosition + "%" }}></div>
+          <Timebar trackDuration={trackDuration} playbackTime={playbackTime} isPlaying={isPlaying}></Timebar>
           <Waveform file={file} setIsLoading={setIsLoading}></Waveform>
           {trackLoaded && (
             <Slider
