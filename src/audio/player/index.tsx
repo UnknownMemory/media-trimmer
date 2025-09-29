@@ -14,6 +14,28 @@ interface Props {
   file: File;
 }
 
+const formatTime = (seconds: number) => {
+  seconds = Math.round(seconds * 1000) / 1000;
+
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  const millisecs = Math.floor((1000 * seconds) % 1000)
+    .toString()
+    .padStart(3, "0");
+
+  let result: string;
+  if (hours > 0) {
+    result =
+      `${hours}:${minutes.toString().padStart(2, "0")}` +
+      `:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
+  } else {
+    result = `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
+  }
+
+  return result;
+};
+
 function Player({ file }: Props) {
   const [volume, setVolume] = useState<number>(50);
   const [open, setOpen] = useState<boolean>(false);
@@ -69,28 +91,6 @@ function Player({ file }: Props) {
       interrupt("stop");
     };
   }, [file, loadFile]);
-
-  const formatTime = (seconds: number) => {
-    seconds = Math.round(seconds * 1000) / 1000;
-
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    const millisecs = Math.floor((1000 * seconds) % 1000)
-      .toString()
-      .padStart(3, "0");
-
-    let result: string;
-    if (hours > 0) {
-      result =
-        `${hours}:${minutes.toString().padStart(2, "0")}` +
-        `:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
-    } else {
-      result = `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
-    }
-
-    return result;
-  };
 
   return (
     <>

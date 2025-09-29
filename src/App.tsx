@@ -48,14 +48,20 @@ function App() {
         }}>
         <Button
           component="label"
-          role={undefined}
+          role="button"
           variant="contained"
           tabIndex={-1}
           sx={{ marginRight: "1rem", textTransform: "none" }}>
           Load file
           <VisuallyHiddenInput type="file" accept="audio/*, audio/aac" onChange={(event) => onUpload(event)} multiple />
         </Button>
-        <Button component="label" role={undefined} variant="contained" tabIndex={-1} sx={{ textTransform: "none" }}>
+        <Button
+          component="label"
+          role="button"
+          variant="contained"
+          tabIndex={-1}
+          sx={{ textTransform: "none" }}
+          data-testid="example-file-btn">
           Load example file
           <VisuallyHiddenInput type="button" onClick={loadExample} multiple />
         </Button>
@@ -79,8 +85,7 @@ function App() {
               </Button>
             </Box>
           </Box>
-          {!file && uploadBtn()}
-          {file && <Player file={file} />}
+          {file ? <Player file={file} /> : uploadBtn()}
         </div>
       </Container>
     </>
