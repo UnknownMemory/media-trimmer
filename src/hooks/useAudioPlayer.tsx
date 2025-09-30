@@ -137,9 +137,9 @@ const useAudioPlayer = () => {
       if (!audioTrack) return;
 
       if (audioTrack.codec === null) {
-        throw new Error("Unsupported audio codec.");
+        console.log("Unsupported audio codec.");
       } else if (!(await audioTrack.canDecode())) {
-        throw new Error("Unable to decode the audio track.");
+        console.log("Unable to decode the audio track.");
       }
 
       setTrack(audioTrack);

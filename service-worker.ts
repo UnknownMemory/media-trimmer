@@ -1,7 +1,7 @@
 declare let self: ServiceWorkerGlobalScope
 
 const cacheName = "audio-trimmer-v1";
-const assets = ["index.html", "DJ YARI - EVERYTHING IS BUSINES PT.2.m4a", "icon.svg", "assets/index.js", "assets/index.css"];
+const assets = ["index.html", "DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3", "icon.svg", "assets/index.js", "assets/index.css"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

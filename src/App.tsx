@@ -28,9 +28,9 @@ function App() {
   };
 
   const loadExample = () => {
-    fetch("./DJ YARI - EVERYTHING IS BUSINES PT.2.m4a").then((data) => {
+    fetch("./DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3").then((data) => {
       data.blob().then((blob) => {
-        const file = new File([blob], "DJ YARI - EVERYTHING IS BUSINES PT.2.m4a", { type: "audio/m4a" });
+        const file = new File([blob], "DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3", { type: "audio/mpeg" });
         setFile(file);
         setTitle(file.name.substring(0, file.name.lastIndexOf(".")));
       });

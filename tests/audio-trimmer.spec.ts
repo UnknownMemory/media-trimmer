@@ -8,6 +8,6 @@ test('should load the main and the example file', async ({ page }) => {
 
   await page.getByTestId("example-file-btn").click()
 
-  await expect(page.locator('text="DJ YARI - EVERYTHING IS BUSINES PT.2"')).toBeVisible()
+  await expect(page.locator('text="DJ_YARI_EVERYTHING_IS_BUSINES_PT_2"')).toBeVisible()
 });
 
