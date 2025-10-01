@@ -1,7 +1,8 @@
-declare let self: ServiceWorkerGlobalScope
+declare let self: ServiceWorkerGlobalScope & { __APP_VERSION__: string }
 declare const __APP_VERSION__: string
 
-const cacheName = `audio-trimmer-${__APP_VERSION__}`;
+const version = typeof __APP_VERSION__ == 'undefined' ? self.__APP_VERSION__ : __APP_VERSION__
+const cacheName = `audio-trimmer-${version}`;
 const assets = ["index.html", "DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3", "icon.svg", "assets/index.js", "assets/index.css"];
 
 self.addEventListener("install", (event) => {
