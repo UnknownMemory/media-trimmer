@@ -1,6 +1,7 @@
 declare let self: ServiceWorkerGlobalScope
+declare const __APP_VERSION__: string
 
-const cacheName = "audio-trimmer-v1";
+const cacheName = `audio-trimmer-${__APP_VERSION__}`;
 const assets = ["index.html", "DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3", "icon.svg", "assets/index.js", "assets/index.css"];
 
 self.addEventListener("install", (event) => {

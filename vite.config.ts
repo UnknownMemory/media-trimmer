@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   base: "/media-trimmer/",
+  define: {
+    '__APP_VERSION__': JSON.stringify(process.env.npm_package_version)
+  },
   plugins: [react(), {
     name: "transform-sw-path",
     apply: "build",
