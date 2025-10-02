@@ -85,11 +85,7 @@ function Player({ file }: Props) {
 
   useEffect(() => {
     setIsLoading(true);
-
     loadFile(file);
-    return () => {
-      interrupt("stop");
-    };
   }, [file, loadFile]);
 
   return (

@@ -124,6 +124,10 @@ const useAudioPlayer = () => {
 
   const loadFile = useCallback(async (file: File) => {
     try {
+      if (isPlaying) {
+        interrupt("stop");
+      }
+
       audioBufferIterator.current?.return();
       setTrackLoaded(false);
 
