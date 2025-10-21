@@ -13,6 +13,20 @@
   position: relative;
 }
 
+.at-logo img {
+  width: 32px;
+}
+
+.at-logo h1 {
+  margin-left: 5px;
+}
+
+.filename {
+  text-overflow: ellipsis;
+  max-width: 350px;
+  overflow: hidden;
+}
+
 #waveform {
   width: 100%;
 }
@@ -50,4 +64,14 @@
   width: 3px;
   height: 100%;
   background-color: #90caf9;
+}
+
+@media screen and (max-width: 425px) {
+  .filename {
+    max-width: 175px;
+  }
+
+  .at-logo h1 {
+    display: none;
+  }
 }

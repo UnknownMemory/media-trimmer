@@ -74,10 +74,11 @@ function App() {
       <Container maxWidth={false} fixed>
         <div className="trimmer">
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gridArea: "Header" }}>
-            <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
+            <Box className="at-logo" sx={{ display: "flex", alignItems: "center", flexGrow: 1, flexBasis: 0 }}>
+              <img src="icon.svg" alt="Audio Trimmer Logo" />
               <h1>Audio Trimmer</h1>
             </Box>
-            <div>{title != "" && title}</div>
+            <div className="filename">{title != "" && title}</div>
             <Box sx={{ flexGrow: 1, flexBasis: 0, display: "flex", justifyContent: "flex-end" }}>
               <Button component="label" role={undefined} variant="text" tabIndex={-1} sx={{ textTransform: "none" }}>
                 Load file
