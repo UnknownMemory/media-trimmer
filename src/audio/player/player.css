@@ -10,7 +10,18 @@
 
 #player {
   width: 100%;
+}
+
+.timeline {
+  width: 100%;
   position: relative;
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.9rem;
 }
 
 .at-logo img {

@@ -14,7 +14,7 @@ interface Props {
   file: File;
 }
 
-const formatTime = (seconds: number) => {
+const formatTime = (seconds: number, ms: boolean) => {
   seconds = Math.round(seconds * 1000) / 1000;
 
   const hours = Math.floor(seconds / 3600);
@@ -26,11 +26,15 @@ const formatTime = (seconds: number) => {
 
   let result: string;
   if (hours > 0) {
-    result =
-      `${hours}:${minutes.toString().padStart(2, "0")}` +
-      `:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
+    result = `${hours}:${minutes.toString().padStart(2, "0")}` + `:${remainingSeconds.toString().padStart(2, "0")}`;
+    if (ms) {
+      result = result + `.${millisecs}`;
+    }
   } else {
-    result = `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}.${millisecs}`;
+    result = `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+    if (ms) {
+      result = result + `.${millisecs}`;
+    }
   }
 
   return result;
@@ -118,20 +122,27 @@ function Player({ file }: Props) {
           </Box>
         )}
         <Box id="player">
-          <Timebar trackDuration={trackDuration} playbackTime={playbackTime} isPlaying={isPlaying}></Timebar>
-          <Waveform file={file} setIsLoading={setIsLoading}></Waveform>
-          {trackLoaded && (
-            <Slider
-              className="mt-slider"
-              min={0}
-              max={trackDuration}
-              step={0.0000000000001}
-              value={trimDuration}
-              onChange={handleChange}
-              valueLabelDisplay="auto"
-              valueLabelFormat={formatTime}
-              disableSwap></Slider>
-          )}
+          <Box className="timeline">
+            <Timebar trackDuration={trackDuration} playbackTime={playbackTime} isPlaying={isPlaying}></Timebar>
+            <Waveform file={file} setIsLoading={setIsLoading}></Waveform>
+            {trackLoaded && (
+              <Slider
+                className="mt-slider"
+                min={0}
+                max={trackDuration}
+                step={0.0000000000001}
+                value={trimDuration}
+                onChange={handleChange}
+                valueLabelDisplay="auto"
+                valueLabelFormat={(value) => formatTime(value, true)}
+                disableSwap></Slider>
+            )}
+          </Box>
+
+          <Box className="progress">
+            <div>{formatTime(playbackTime, false)}</div>
+            <div>{formatTime(trackDuration, false)}</div>
+          </Box>
         </Box>
       </Box>
       <Box sx={{ gridArea: "Controls", alignContent: "center" }}>
