@@ -127,7 +127,7 @@ function ExportDialog({ open, setOpen, file, duration }: Props) {
       <DialogTitle>Export File</DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <FormControl sx={{ m: 1, width: "80%" }} size="small">
+          <FormControl sx={{ m: 1, width: { xs: "70%", md: "80%" } }} size="small">
             <TextField
               id="filename"
               required
@@ -136,7 +136,7 @@ function ExportDialog({ open, setOpen, file, duration }: Props) {
               size="small"
               onChange={handleFilename}></TextField>
           </FormControl>
-          <FormControl sx={{ m: 1, width: "20%" }} size="small">
+          <FormControl sx={{ m: 1, width: { xs: "30%", md: "20%" } }} size="small">
             <InputLabel id="select-format">Format</InputLabel>
             <Select id="select-format" label="Format" value={format} onChange={handleSelect} size="small">
               <MenuItem value="mp3">MP3</MenuItem>
@@ -156,7 +156,7 @@ function ExportDialog({ open, setOpen, file, duration }: Props) {
             sx={{ width: "65%", visibility: isExporting ? "visible" : "hidden" }}
           />
           <Button type="submit" onClick={() => exportAudio(file)} disabled={isExporting}>
-            Export File
+            Export
           </Button>
         </Box>
       </DialogActions>

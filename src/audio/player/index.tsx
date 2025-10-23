@@ -152,6 +152,7 @@ function Player({ file }: Props) {
               className="play-pause-btn"
               type="button"
               onClick={togglePlay}
+              role="button"
               size="large"
               aria-label="play/pause">
               {isPlaying ? (
@@ -165,7 +166,8 @@ function Player({ file }: Props) {
               type="button"
               onClick={() => interrupt("stop")}
               size="large"
-              aria-label="play/pause">
+              role="button"
+              aria-label="stop">
               <StopCircle fontSize="large"></StopCircle>
             </IconButton>
             <Stack spacing={1} direction="row" sx={{ alignItems: "center", width: "10rem" }}>
