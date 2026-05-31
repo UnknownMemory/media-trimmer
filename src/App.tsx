@@ -27,14 +27,22 @@ function App() {
     }
   };
 
-  const loadExample = () => {
-    fetch("./DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3").then((data) => {
-      data.blob().then((blob) => {
-        const file = new File([blob], "DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3", { type: "audio/mpeg" });
-        setFile(file);
-        setTitle(file.name.substring(0, file.name.lastIndexOf(".")));
-      });
-    });
+  const loadExample = async () => {
+    const basePath = import.meta.env.BASE_URL;
+    const url = `${basePath}Street Fighter EX3 - Strange Sunset (Guile).mp3`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+        return;
+      }
+      const blob = await response.blob();
+      const file = new File([blob], "Street Fighter EX3 - Strange Sunset (Guile).mp3", { type: "audio/mpeg" });
+      setFile(file);
+      setTitle(file.name.substring(0, file.name.lastIndexOf(".")));
+    } catch (error) {
+      console.error(`Error loading example file from ${url}:`, error);
+    }
   };
 
   const uploadBtn = () => {

@@ -1,86 +1,40 @@
-import { useCallback, useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import WaveSurfer from "wavesurfer.js";
 
-function Waveform({ file, setIsLoading }: { file: File; setIsLoading: Dispatch<SetStateAction<boolean>> }) {
-  const canvasref = useRef<HTMLCanvasElement>(null);
-
-  const waveData = (buffer: AudioBuffer, width: number) => {
-    const channelData = buffer.getChannelData(0);
-    const step = Math.ceil(channelData.length / width);
-    return { channelData, step };
-  };
-
-  const render = useCallback(async () => {
-    if (!canvasref.current) return;
-    const canvas: HTMLCanvasElement = canvasref.current;
-    const audioContext = new AudioContext();
-    const audioBuffer = await audioContext.decodeAudioData(await file.arrayBuffer());
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      return;
-    }
-
-    const width = canvas.width;
-    const height = canvas.height;
-    const { channelData, step } = waveData(audioBuffer, width);
-    const amp = height / 2;
-
-    ctx.translate(0.5, 0.5);
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "#ffffff";
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-
-    for (let i = 0; i < width; i++) {
-      let min = 1.0;
-      let max = -1.0;
-
-      for (let j = 0; j < step; j++) {
-        const total = channelData[i * step + j];
-        if (total < min) min = total;
-        if (total > max) max = total;
-        if (isNaN(total)) break;
-      }
-
-      const x = i;
-      const yMin = (1 + min) * amp;
-      const yMax = (1 + max) * amp;
-
-      if (i === 0) {
-        ctx.moveTo(x, yMin);
-      } else {
-        ctx.lineTo(x, yMin);
-      }
-
-      ctx.lineTo(x, yMax);
-    }
-    ctx.translate(0.5, 0.5); // Helps with crisp lines
-    ctx.imageSmoothingEnabled = true;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(0, height / 2);
-    ctx.lineTo(width, height / 2);
-    ctx.stroke();
-
-    setIsLoading(false);
-  }, [file, setIsLoading]);
-
-  useEffect(() => {
-    if (!canvasref.current || !file) return;
-
-    canvasref.current.width = canvasref.current.offsetWidth - 20;
-    canvasref.current.height = canvasref.current.offsetHeight;
-
-    render();
-  }, [file, setIsLoading, render]);
-
-  return (
-    <>
-      <canvas id="waveform" ref={canvasref}></canvas>
-    </>
-  );
+interface Props {
+  file: File;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export default Waveform;
+function PlayerWaveform({ file, setIsLoading }: Props) {
+  const containerRef = useRef(null);
+  const wavesurferRef = useRef<WaveSurfer>(null);
+
+  useEffect(() => {
+    if (!file || !containerRef.current) return;
+    const objectUrl = URL.createObjectURL(file);
+
+    wavesurferRef.current = WaveSurfer.create({
+      container: containerRef.current,
+      waveColor: "#fff",
+      url: objectUrl,
+      interact: false,
+      cursorWidth: 0,
+    });
+
+    wavesurferRef.current.on("ready", () => {
+      setIsLoading(false);
+      URL.revokeObjectURL(objectUrl);
+    });
+
+    return () => {
+      if (wavesurferRef.current) {
+        wavesurferRef.current.destroy();
+      }
+    };
+  }, [file, setIsLoading]);
+
+  return <div ref={containerRef}></div>;
+}
+
+export default PlayerWaveform;

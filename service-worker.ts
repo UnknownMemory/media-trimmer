@@ -3,7 +3,7 @@ declare const __APP_VERSION__: string
 
 const version = typeof __APP_VERSION__ == 'undefined' ? self.__APP_VERSION__ : __APP_VERSION__
 const cacheName = `audio-trimmer-${version}`;
-const assets = ["index.html", "DJ_YARI_EVERYTHING_IS_BUSINES_PT_2.mp3", "icon.svg", "assets/index.js", "assets/index.css"];
+const assets = ["index.html", "Street Fighter EX3 - Strange Sunset (Guile).mp3", "icon.svg", "assets/index.js", "assets/index.css"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

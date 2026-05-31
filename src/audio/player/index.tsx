@@ -5,7 +5,7 @@ import Slider from "@mui/material/Slider";
 
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 
-import Waveform from "./waveform";
+import PlayerWaveform from "./waveform.tsx";
 import ExportDialog from "../export/dialog";
 import { Timebar } from "./timebar.tsx";
 import "./player.css";
@@ -124,7 +124,7 @@ function Player({ file }: Props) {
         <Box id="player">
           <Box className="timeline">
             <Timebar trackDuration={trackDuration} playbackTime={playbackTime} isPlaying={isPlaying}></Timebar>
-            <Waveform file={file} setIsLoading={setIsLoading}></Waveform>
+            <PlayerWaveform file={file} setIsLoading={setIsLoading}></PlayerWaveform>
             {trackLoaded && (
               <Slider
                 className="mt-slider"
